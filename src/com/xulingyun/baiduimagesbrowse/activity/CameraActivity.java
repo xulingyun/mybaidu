@@ -1,47 +1,158 @@
 package com.xulingyun.baiduimagesbrowse.activity;
 
 import android.app.Activity;
-import android.hardware.Camera;
-import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.xulingyun.baiduimagesbrowse.R;
 import com.xulingyun.baiduimagesbrowse.view.MySurfaceView;
 
-public class CameraActivity extends Activity{
-	ImageView iv;
+public class CameraActivity extends Activity implements SensorEventListener,OnClickListener{
+	/** 返回 */
+	ImageView back;
+	/** 标题 */
+	TextView title;
+	/** 灯光 */
+	Button light;
+	/** 切换摄像头 */
+	Button switchCamera;
+	/** 画面 */
 	MySurfaceView mv;
-	ImageView switchCamera;
+	/** 画面上面的覆盖层 */
+	ImageView img_cover;
+	/**模式*/
+	ImageView mode;
+	/** 拍照 */
+	ImageView camera;
+	/**从相册选*/
+	TextView fromAlbums;
 	boolean isClicked = false;
-	int index=0;
+	/** 初始化摄像头，0为后置摄像头 */
+	int index = 0;
+	/** 感应器管理 */
+	SensorManager mSensorManager;
+	/** 感应器 */
+	Sensor mSensor;
+	boolean isLight = false;;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
-		mv = (MySurfaceView) findViewById(R.id.sv);
-		iv = (ImageView) findViewById(R.id.paizhao);
-		switchCamera = (ImageView) findViewById(R.id.camera);
-		iv.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mv.autoOrPreview(isClicked);
-				isClicked = !isClicked;
-			}
-		});
-		
-		switchCamera.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(index==0)
-					index = 1;
-				else
-					index=0;
-				mv.switchCamera(index);
-			}
-		});
+		initView();
+		setOnclick();
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerSensor();
+	}
+
+	private void registerSensor() {
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mSensorManager.registerListener(this, mSensor,
+				SensorManager.SENSOR_DELAY_NORMAL);
+	}
+
+	/**
+	 * 初始化控件
+	 */
+	private void initView() {
+		back = (ImageView) findViewById(R.id.back);
+		title = (TextView) findViewById(R.id.title);
+		light = (Button) findViewById(R.id.light);
+		switchCamera = (Button) findViewById(R.id.switchCamera);
+		mv = (MySurfaceView) findViewById(R.id.sv);
+		img_cover = (ImageView) findViewById(R.id.img_cover);
+		mode = (ImageView) findViewById(R.id.mode);
+		camera = (ImageView) findViewById(R.id.camera);
+		fromAlbums = (TextView) findViewById(R.id.fromAlbums);
+		camera.setEnabled(false);
+	}
+	
+	private void setOnclick(){
+		back.setOnClickListener(this);
+		title.setOnClickListener(this);
+		light.setOnClickListener(this);
+		switchCamera.setOnClickListener(this);
+		mode.setOnClickListener(this);
+		camera.setOnClickListener(this);
+		fromAlbums.setOnClickListener(this);
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		if (event.sensor == null) {
+			return;
+		}
+		int x = (int) event.values[0];
+		int y = (int) event.values[1];
+		int z = (int) event.values[2];
+		if (x >= 4 || x <= -4) {
+			if (y >= -4 && y <= 4) {
+				if (img_cover.getVisibility() == View.VISIBLE)
+					img_cover.setVisibility(View.INVISIBLE);
+					camera.setEnabled(true);
+			} else {
+				if (img_cover.getVisibility() == View.INVISIBLE){
+					img_cover.setVisibility(View.VISIBLE);
+					camera.setEnabled(false);
+				}
+			}
+		} else {
+			if (img_cover.getVisibility() == View.INVISIBLE){
+				img_cover.setVisibility(View.VISIBLE);
+				camera.setEnabled(false);
+			}
+		}
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mSensorManager.unregisterListener(this);
+		mSensorManager = null;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.back:
+			break;
+		case R.id.light:
+			isLight = !isLight;
+			break;
+		case R.id.switchCamera:
+			if (index == 0) {
+				index = 1;
+				light.setVisibility(View.INVISIBLE);
+			} else {
+				index = 0;
+				light.setVisibility(View.VISIBLE);
+			}
+			mv.switchCamera(index);
+			break;
+		case R.id.camera:
+			mv.autoOrPreview(isClicked,isLight);
+			isClicked = !isClicked;
+			break;
+		default:
+			break;
+		}
+	}
+
 }

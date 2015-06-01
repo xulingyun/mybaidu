@@ -8,6 +8,7 @@ import java.io.IOException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
@@ -23,12 +24,14 @@ public class MySurfaceView extends SurfaceView implements
 
 	SurfaceHolder holder;
 	Camera myCamera;
+	boolean isLight;
 
 	public MySurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		holder = getHolder();// 获得surfaceHolder引用
 		holder.addCallback(this);
-		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);// 设置类型
+//		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);// 设置类型
+		isLight = false;
 	}
 
 	@Override
@@ -66,7 +69,6 @@ public class MySurfaceView extends SurfaceView implements
 
 		@Override
 		public void onShutter() {
-			// TODO Auto-generated method stub
 			Log.d("ddd", "shutter");
 
 		}
@@ -75,7 +77,6 @@ public class MySurfaceView extends SurfaceView implements
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			// TODO Auto-generated method stub
 			Log.d("ddd", "raw");
 
 		}
@@ -85,11 +86,18 @@ public class MySurfaceView extends SurfaceView implements
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
 			try {
-				Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+				Bitmap oldBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                Matrix matrix = new Matrix(); 
+                matrix.setRotate(180); 
+
+                Bitmap newBitmap = Bitmap.createBitmap(oldBitmap, 0, 0, 
+                        oldBitmap.getWidth(), oldBitmap.getHeight(), 
+                        matrix, true);
+                
 				File file = new File("/sdcard/xulingyun.jpg");
 				BufferedOutputStream bos = new BufferedOutputStream(
 						new FileOutputStream(file));
-				bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+				newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 				bos.flush();
 				bos.close();
 			} catch (Exception e) {
@@ -127,13 +135,18 @@ public class MySurfaceView extends SurfaceView implements
 			Camera.Parameters params = myCamera.getParameters();
 			params.setPictureFormat(PixelFormat.JPEG);
 			params.setPreviewSize(640, 480);
-			params.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+			if(isLight){
+				params.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+			}else{
+				params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+			}
 			myCamera.setParameters(params);
 			myCamera.takePicture(null, null, jpeg);
 		}
 	}
 
-	public void autoOrPreview(boolean b) {
+	public void autoOrPreview(boolean b,boolean isLight) {
+		this.isLight = isLight;
 		if (!b) {
 			myCamera.autoFocus(this);// 自动对焦
 		} else {

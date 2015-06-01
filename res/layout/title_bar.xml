@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/camera_close_normal" />
+        android:background="@drawable/camera_close_normal" />
 
     <TextView
         android:id="@+id/title"
@@ -19,19 +19,19 @@
         android:text="@string/title_activity_camera"
         android:textColor="#ffffff" />
 
-    <ImageView
+    <Button
         android:layout_marginLeft="10dp"
-        android:id="@+id/camera"
+        android:id="@+id/switchCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:src="@drawable/camera_change_normal" />
+        android:background="@drawable/camera_change" />
 
-    <ImageView
+    <Button
         android:id="@+id/light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/camera"
-        android:src="@drawable/camera_flash_auto" />
+        android:layout_toLeftOf="@id/switchCamera"
+        android:background="@drawable/camera_flash" />
 
 </RelativeLayout>

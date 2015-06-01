@@ -85,7 +85,8 @@
 
         <activity
             android:name="com.xulingyun.baiduimagesbrowse.activity.MyListActivity"
-            android:label="@string/title_activity_camera" >
+            android:label="@string/title_activity_camera" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

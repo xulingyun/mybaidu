@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.xulingyun.baiduimagesbrowse.R;
@@ -41,6 +42,8 @@ public class CameraActivity extends Activity implements SensorEventListener,OnCl
 	SensorManager mSensorManager;
 	/** 感应器 */
 	Sensor mSensor;
+	/**拍照进度条*/
+	ProgressBar progressBar;
 	boolean isLight = false;;
 
 	@Override
@@ -77,9 +80,12 @@ public class CameraActivity extends Activity implements SensorEventListener,OnCl
 		mode = (ImageView) findViewById(R.id.mode);
 		camera = (ImageView) findViewById(R.id.camera);
 		fromAlbums = (TextView) findViewById(R.id.fromAlbums);
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		camera.setEnabled(false);
 	}
-	
+	/**
+	 * 初始化事件
+	 */
 	private void setOnclick(){
 		back.setOnClickListener(this);
 		title.setOnClickListener(this);
@@ -147,7 +153,7 @@ public class CameraActivity extends Activity implements SensorEventListener,OnCl
 			mv.switchCamera(index);
 			break;
 		case R.id.camera:
-			mv.autoOrPreview(isClicked,isLight);
+			mv.autoOrPreview(isClicked,isLight,progressBar);
 			isClicked = !isClicked;
 			break;
 		default:

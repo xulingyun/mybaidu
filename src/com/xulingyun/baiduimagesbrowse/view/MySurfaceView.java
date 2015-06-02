@@ -5,19 +5,25 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.xulingyun.baiduimagesbrowse.activity.ClipActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
 import android.graphics.Matrix;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 public class MySurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, AutoFocusCallback {
@@ -25,12 +31,15 @@ public class MySurfaceView extends SurfaceView implements
 	SurfaceHolder holder;
 	Camera myCamera;
 	boolean isLight;
-
+	Context context;
+	ProgressBar progressBar;
+	
 	public MySurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		this.context = context;
 		holder = getHolder();// 获得surfaceHolder引用
 		holder.addCallback(this);
-//		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);// 设置类型
+		// holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);// 设置类型
 		isLight = false;
 	}
 
@@ -51,7 +60,7 @@ public class MySurfaceView extends SurfaceView implements
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Camera.Parameters params = myCamera.getParameters();
-		params.setPictureFormat(PixelFormat.JPEG);
+		params.setPictureFormat(ImageFormat.JPEG);
 		params.setPreviewSize(640, 480);
 		myCamera.setParameters(params);
 		myCamera.startPreview();
@@ -86,20 +95,29 @@ public class MySurfaceView extends SurfaceView implements
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
 			try {
-				Bitmap oldBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                Matrix matrix = new Matrix(); 
-                matrix.setRotate(180); 
+				System.out.println("保存图片");
+				Bitmap oldBitmap = BitmapFactory.decodeByteArray(data, 0,
+						data.length);
+				Matrix matrix = new Matrix();
+				matrix.setRotate(180);
 
-                Bitmap newBitmap = Bitmap.createBitmap(oldBitmap, 0, 0, 
-                        oldBitmap.getWidth(), oldBitmap.getHeight(), 
-                        matrix, true);
-                
-				File file = new File("/sdcard/xulingyun.jpg");
+				Bitmap newBitmap = Bitmap.createBitmap(oldBitmap, 0, 0,
+						oldBitmap.getWidth(), oldBitmap.getHeight(), matrix,
+						true);
+
+				File file = new File(Environment.getExternalStorageDirectory()
+						.getPath()+File.separator + System.currentTimeMillis() + ".jpg");
 				BufferedOutputStream bos = new BufferedOutputStream(
 						new FileOutputStream(file));
 				newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 				bos.flush();
 				bos.close();
+				System.out.println("保存完成");
+				progressBar.setVisibility(View.INVISIBLE);
+				Intent intent = new Intent(context, ClipActivity.class);
+				intent.putExtra("image", data);
+				context.startActivity(intent);
+				System.out.println("启动完成");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -131,13 +149,14 @@ public class MySurfaceView extends SurfaceView implements
 	@Override
 	public void onAutoFocus(boolean success, Camera camera) {
 		if (success) {
+			progressBar.setVisibility(View.VISIBLE);
 			// 设置参数,并拍照
 			Camera.Parameters params = myCamera.getParameters();
-			params.setPictureFormat(PixelFormat.JPEG);
+			params.setPictureFormat(ImageFormat.JPEG);
 			params.setPreviewSize(640, 480);
-			if(isLight){
+			if (isLight) {
 				params.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-			}else{
+			} else {
 				params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			}
 			myCamera.setParameters(params);
@@ -145,8 +164,9 @@ public class MySurfaceView extends SurfaceView implements
 		}
 	}
 
-	public void autoOrPreview(boolean b,boolean isLight) {
+	public void autoOrPreview(boolean b, boolean isLight,ProgressBar progressBar) {
 		this.isLight = isLight;
+		this.progressBar = progressBar;
 		if (!b) {
 			myCamera.autoFocus(this);// 自动对焦
 		} else {

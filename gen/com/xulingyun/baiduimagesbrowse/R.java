@@ -11,6 +11,7 @@ public final class R {
     public static final class anim {
         public static final int fade_in=0x7f040000;
         public static final int fade_out=0x7f040001;
+        public static final int loading=0x7f040002;
     }
     public static final class attr {
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
@@ -74,93 +75,106 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020017;
         public static final int img_movie=0x7f020018;
         public static final int loadfail=0x7f020019;
-        public static final int login_bg=0x7f02001a;
-        public static final int login_bg_layout=0x7f02001b;
-        public static final int login_btn_selector=0x7f02001c;
-        public static final int login_button=0x7f02001d;
-        public static final int login_button_press=0x7f02001e;
-        public static final int login_checkbox_selected=0x7f02001f;
-        public static final int login_checkbox_selector=0x7f020020;
-        public static final int login_checkbox_unselected=0x7f020021;
-        public static final int login_line=0x7f020022;
-        public static final int login_user_table_bg=0x7f020023;
-        public static final int share_button=0x7f020024;
-        public static final int tab_center=0x7f020025;
-        public static final int title_bg=0x7f020026;
-        public static final int widget_bar_tweet_nor=0x7f020027;
-        public static final int widget_bar_tweet_over=0x7f020028;
+        public static final int loading_0=0x7f02001a;
+        public static final int loading_1=0x7f02001b;
+        public static final int loading_2=0x7f02001c;
+        public static final int loading_3=0x7f02001d;
+        public static final int loading_4=0x7f02001e;
+        public static final int loading_5=0x7f02001f;
+        public static final int loading_6=0x7f020020;
+        public static final int loading_7=0x7f020021;
+        public static final int login_bg=0x7f020022;
+        public static final int login_bg_layout=0x7f020023;
+        public static final int login_btn_selector=0x7f020024;
+        public static final int login_button=0x7f020025;
+        public static final int login_button_press=0x7f020026;
+        public static final int login_checkbox_selected=0x7f020027;
+        public static final int login_checkbox_selector=0x7f020028;
+        public static final int login_checkbox_unselected=0x7f020029;
+        public static final int login_line=0x7f02002a;
+        public static final int login_user_table_bg=0x7f02002b;
+        public static final int share_button=0x7f02002c;
+        public static final int tab_center=0x7f02002d;
+        public static final int title_bg=0x7f02002e;
+        public static final int widget_bar_tweet_nor=0x7f02002f;
+        public static final int widget_bar_tweet_over=0x7f020030;
     }
     public static final class id {
-        public static final int action_light=0x7f05002d;
-        public static final int action_settings=0x7f05002e;
-        public static final int b1=0x7f050016;
-        public static final int b2=0x7f050015;
-        public static final int back=0x7f05001f;
-        public static final int birthday=0x7f050024;
-        public static final int birthday_e=0x7f050025;
-        public static final int camera=0x7f050013;
-        public static final int caozuo=0x7f050019;
+        public static final int action_light=0x7f05002f;
+        public static final int action_settings=0x7f050030;
+        public static final int b1=0x7f050018;
+        public static final int b2=0x7f050017;
+        public static final int back=0x7f050021;
+        public static final int birthday=0x7f050026;
+        public static final int birthday_e=0x7f050027;
+        public static final int camera=0x7f050015;
+        public static final int caozuo=0x7f05001b;
         public static final int circle=0x7f050000;
-        public static final int comment=0x7f05001c;
-        public static final int dots=0x7f050006;
-        public static final int female=0x7f050029;
-        public static final int fromAlbums=0x7f050014;
-        public static final int gomain=0x7f05001e;
+        public static final int clipimage=0x7f050006;
+        public static final int comment=0x7f05001e;
+        public static final int dots=0x7f050008;
+        public static final int female=0x7f05002b;
+        public static final int fromAlbums=0x7f050016;
+        public static final int gomain=0x7f050020;
         public static final int heart=0x7f050002;
-        public static final int hobby=0x7f05002a;
-        public static final int hobby_e=0x7f05002b;
+        public static final int hobby=0x7f05002c;
+        public static final int hobby_e=0x7f05002d;
         public static final int img_cover=0x7f050004;
-        public static final int iv1=0x7f050007;
-        public static final int iv2=0x7f050008;
-        public static final int iv3=0x7f050009;
-        public static final int light=0x7f050022;
-        public static final int like=0x7f05001a;
-        public static final int login_account=0x7f05000c;
-        public static final int login_btn=0x7f05000f;
-        public static final int login_layout=0x7f05000a;
-        public static final int login_name_layout=0x7f05000b;
-        public static final int login_password=0x7f05000d;
-        public static final int login_rememberMe=0x7f05000e;
-        public static final int lv=0x7f050010;
-        public static final int male=0x7f050028;
-        public static final int mode=0x7f050012;
-        public static final int mylist=0x7f05001d;
-        public static final int name=0x7f050017;
-        public static final int name_e=0x7f050023;
-        public static final int progressBar1=0x7f050011;
+        public static final int iv1=0x7f050009;
+        public static final int iv2=0x7f05000a;
+        public static final int iv3=0x7f05000b;
+        public static final int light=0x7f050024;
+        public static final int like=0x7f05001c;
+        public static final int login_account=0x7f05000e;
+        public static final int login_btn=0x7f050011;
+        public static final int login_layout=0x7f05000c;
+        public static final int login_name_layout=0x7f05000d;
+        public static final int login_password=0x7f05000f;
+        public static final int login_rememberMe=0x7f050010;
+        public static final int lv=0x7f050012;
+        public static final int male=0x7f05002a;
+        public static final int mode=0x7f050014;
+        public static final int mylist=0x7f05001f;
+        public static final int name=0x7f050019;
+        public static final int name_e=0x7f050025;
+        public static final int progressBar=0x7f050005;
+        public static final int progressBar1=0x7f050013;
         public static final int round=0x7f050001;
-        public static final int sex_radio=0x7f050026;
-        public static final int share=0x7f05001b;
-        public static final int show_image=0x7f050018;
-        public static final int submit=0x7f05002c;
+        public static final int sex_radio=0x7f050028;
+        public static final int share=0x7f05001d;
+        public static final int show_image=0x7f05001a;
+        public static final int submit=0x7f05002e;
         public static final int sv=0x7f050003;
-        public static final int switchCamera=0x7f050021;
-        public static final int textView1=0x7f050027;
-        public static final int title=0x7f050020;
-        public static final int viewpage=0x7f050005;
+        public static final int switchCamera=0x7f050023;
+        public static final int textView1=0x7f050029;
+        public static final int title=0x7f050022;
+        public static final int viewpage=0x7f050007;
     }
     public static final class layout {
         public static final int activity_camera=0x7f030000;
-        public static final int activity_enter=0x7f030001;
-        public static final int activity_login=0x7f030002;
-        public static final int activity_show=0x7f030003;
-        public static final int bottom_bar=0x7f030004;
-        public static final int first_enter=0x7f030005;
-        public static final int mylist=0x7f030006;
-        public static final int second_enter=0x7f030007;
-        public static final int show_image=0x7f030008;
-        public static final int thrid_enter=0x7f030009;
-        public static final int title_bar=0x7f03000a;
-        public static final int user_info=0x7f03000b;
+        public static final int activity_clip=0x7f030001;
+        public static final int activity_enter=0x7f030002;
+        public static final int activity_login=0x7f030003;
+        public static final int activity_show=0x7f030004;
+        public static final int bottom_bar=0x7f030005;
+        public static final int first_enter=0x7f030006;
+        public static final int mylist=0x7f030007;
+        public static final int second_enter=0x7f030008;
+        public static final int show_image=0x7f030009;
+        public static final int thrid_enter=0x7f03000a;
+        public static final int title_bar=0x7f03000b;
+        public static final int user_info=0x7f03000c;
     }
     public static final class menu {
         public static final int camera=0x7f090000;
-        public static final int enter=0x7f090001;
-        public static final int show=0x7f090002;
+        public static final int clip=0x7f090001;
+        public static final int enter=0x7f090002;
+        public static final int show=0x7f090003;
     }
     public static final class string {
         public static final int action_settings=0x7f070002;
         public static final int app_name=0x7f070000;
+        public static final int clip=0x7f07001a;
         public static final int enter=0x7f070016;
         public static final int hello_world=0x7f070001;
         public static final int login=0x7f07000b;
@@ -168,7 +182,10 @@ containing a value of this type.
         public static final int login_password=0x7f070008;
         public static final int login_password_hint=0x7f070009;
         public static final int login_rememberMe=0x7f07000a;
+        public static final int next=0x7f07001b;
+        public static final int rephotograph=0x7f070019;
         public static final int title_activity_camera=0x7f070017;
+        public static final int title_activity_clip=0x7f070018;
         public static final int title_activity_show=0x7f070003;
         public static final int title_activity_show_abs=0x7f070004;
         public static final int title_activity_show_wh=0x7f070005;
@@ -211,6 +228,7 @@ containing a value of this type.
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
+        public static final int loading_small=0x7f080002;
     }
     public static final class styleable {
         /** Attributes that can be used with a RoundImageView.

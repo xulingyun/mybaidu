@@ -25,8 +25,9 @@
     <string name="user_hobby_edit">请输入您的爱好，用逗号隔开</string>
     <string name="enter">确定</string>
     <string name="title_activity_camera">拍照</string>
+    <string name="title_activity_clip">ClipActivity</string>
+    <string name="rephotograph">重拍</string>
+    <string name="clip">裁剪</string>
+    <string name="next">下一步</string>
 
-    
-    
-    
 </resources>

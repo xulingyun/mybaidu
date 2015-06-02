@@ -5,12 +5,13 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.CAMERA"/>
-	<uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
     </uses-permission>
@@ -73,6 +74,10 @@
             android:label="@string/title_activity_show" >
         </activity>
 
+        <activity
+            android:name=".activity.ClipActivity"
+            android:label="@string/title_activity_show" >
+        </activity>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -84,9 +89,9 @@
             android:value="Lcvph40MIGcZR40GDEXBFmgF" />
 
         <activity
-            android:name="com.xulingyun.baiduimagesbrowse.activity.MyListActivity"
-            android:label="@string/title_activity_camera" 
-            android:screenOrientation="portrait">
+            android:name=".activity.MyListActivity"
+            android:label="@string/title_activity_camera"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

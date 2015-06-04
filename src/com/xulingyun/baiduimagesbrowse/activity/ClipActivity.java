@@ -28,8 +28,14 @@ public class ClipActivity extends Activity {
 //		mBitmap= clipImageView.getCropImage();
 		intent = getIntent();
 		data = intent.getByteArrayExtra("image");
-		Bitmap bitmap =BitmapFactory.decodeByteArray(data, 0, data.length);
-		clipImageView.setBackground(new BitmapDrawable(bitmap));
+		if(data!=null){
+			Bitmap bitmap =BitmapFactory.decodeByteArray(data, 0, data.length);
+			clipImageView.setBackground(new BitmapDrawable(bitmap));
+		}else{
+			String pathName = intent.getStringExtra("ImagePath");
+			Bitmap bitmap = BitmapFactory.decodeFile(pathName);
+			clipImageView.setBackground(new BitmapDrawable(bitmap));
+		}
 	}
 	
 }

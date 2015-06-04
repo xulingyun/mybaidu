@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import com.xulingyun.baiduimagesbrowse.activity.ClipActivity;
 
 import android.content.Context;
@@ -61,7 +60,8 @@ public class MySurfaceView extends SurfaceView implements
 			int height) {
 		Camera.Parameters params = myCamera.getParameters();
 		params.setPictureFormat(ImageFormat.JPEG);
-		params.setPreviewSize(640, 480);
+		System.out.println("Quality------------------"+params.getJpegQuality());
+		params.setPreviewSize(1280, 720);
 		myCamera.setParameters(params);
 		myCamera.startPreview();
 		myCamera.startPreview();
@@ -86,8 +86,32 @@ public class MySurfaceView extends SurfaceView implements
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			Log.d("ddd", "raw");
+			try {
+				System.out.println("保存图片raw:data,"+data);
+				Bitmap oldBitmap = BitmapFactory.decodeByteArray(data, 0,data.length);
+				Matrix matrix = new Matrix();
+				matrix.setRotate(180);
 
+				Bitmap newBitmap = Bitmap.createBitmap(oldBitmap, 0, 0,
+						oldBitmap.getWidth(), oldBitmap.getHeight(), matrix,
+						true);
+
+				File file = new File(Environment.getExternalStorageDirectory()
+						.getPath()+File.separator + System.currentTimeMillis() + "x.jpg");
+				BufferedOutputStream bos = new BufferedOutputStream(
+						new FileOutputStream(file));
+				newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+				bos.flush();
+				bos.close();
+				System.out.println("保存完成");
+				progressBar.setVisibility(View.INVISIBLE);
+				Intent intent = new Intent(context, ClipActivity.class);
+				intent.putExtra("image", data);
+				context.startActivity(intent);
+				System.out.println("启动完成");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	};
 	private PictureCallback jpeg = new PictureCallback() {
@@ -153,7 +177,9 @@ public class MySurfaceView extends SurfaceView implements
 			// 设置参数,并拍照
 			Camera.Parameters params = myCamera.getParameters();
 			params.setPictureFormat(ImageFormat.JPEG);
-			params.setPreviewSize(640, 480);
+			params.setPictureSize(3264, 2448);
+			params.setJpegQuality(60);
+			params.setPreviewSize(1280, 720);
 			if (isLight) {
 				params.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
 			} else {

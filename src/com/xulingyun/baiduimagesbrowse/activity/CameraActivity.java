@@ -1,11 +1,15 @@
 package com.xulingyun.baiduimagesbrowse.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -104,7 +108,7 @@ public class CameraActivity extends Activity implements SensorEventListener,OnCl
 		}
 		int x = (int) event.values[0];
 		int y = (int) event.values[1];
-		int z = (int) event.values[2];
+//		int z = (int) event.values[2];
 		if (x >= 4 || x <= -4) {
 			if (y >= -4 && y <= 4) {
 				if (img_cover.getVisibility() == View.VISIBLE)
@@ -156,9 +160,36 @@ public class CameraActivity extends Activity implements SensorEventListener,OnCl
 			mv.autoOrPreview(isClicked,isLight,progressBar);
 			isClicked = !isClicked;
 			break;
+		case R.id.fromAlbums:
+			Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI); 
+//			intent.setType("image/*");
+			startActivityForResult(intent, 100); 
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		System.out.println("--------------------requestCode:"+requestCode);
+		if(requestCode==100){
+			System.out.println("--------------------resultCode:"+resultCode);
+			if(resultCode==Activity.RESULT_OK){
+				System.out.println("--------------end------:");
+				   Uri selectedImage = data.getData();
+				   String[] filePathColumns={MediaStore.Images.Media.DATA};
+				   Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null,null, null);
+				   c.moveToFirst();
+				   int columnIndex = c.getColumnIndex(filePathColumns[0]);
+				   String picturePath= c.getString(columnIndex);
+				   c.close();
+				   Intent intent = new Intent(CameraActivity.this,ClipActivity.class);
+				   intent.putExtra("ImagePath", picturePath);
+				   startActivity(intent);
+			}
+		}
+		
 	}
 
 }

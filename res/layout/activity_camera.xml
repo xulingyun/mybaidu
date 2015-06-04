@@ -29,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateDrawable="@anim/loading"/>
+            android:indeterminateDrawable="@anim/loading"
+            android:visibility="invisible"/>
     </RelativeLayout>
 
     <include layout="@layout/bottom_bar" />
